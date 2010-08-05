@@ -1,0 +1,18 @@
+#proc getdata
+    file: @TABLEFILE
+
+#proc areadef
+    rectangle: 1 1 4 4
+    xrange: 0 120
+    xaxis.stubs: inc
+    xaxis.label: Number of peers
+    xaxis.grid: color=0.8
+    yautorange: datafield=2
+    yaxis.grid: color=0.8
+    yaxis.label: Credit
+    yaxis.stubs: inc
+
+#proc scatterplot
+    xfield: 1
+    yfield: 2
+    symbol: shape=diamond color=red radius=0.04

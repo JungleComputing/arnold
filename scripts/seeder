@@ -1,0 +1,47 @@
+#!/bin/sh
+
+#SERVERHOST=babylon.few.vu.nl
+SERVERHOST=localhost
+#SERVERHOST=fs0.das3.cs.vu.nl
+
+#PROF=-Xprof
+PROF=
+#GC="-verbose:gc -XX:+PrintGCDetails"
+GC=
+POOLNAME=jorrent
+SHAREDFILE=ubuntu-karmic-desktop-i386.iso
+JORRENTFILE=`basename $SHAREDFILE .iso`.jorrent
+
+# Check setting of ARNOLD_HOME
+if [ -z "$ARNOLD_HOME" ];  then
+    echo "please set ARNOLD_HOME to the location of your Arnold installation" 1>&2
+    exit 1
+fi
+
+# Jar-files from library.
+LIBCLASSPATH=""
+add_to_libclasspath () {
+    JARFILES=`cd "$1" && ls *.jar 2>/dev/null`
+    for i in ${JARFILES} ; do
+	if [ -z "$LIBCLASSPATH" ] ; then
+	    LIBCLASSPATH="$1/$i"
+	else
+	    LIBCLASSPATH="$LIBCLASSPATH:$1/$i"
+	fi
+    done
+}
+
+# Add the jar files in the lib dir to the classpath.
+add_to_libclasspath "${ARNOLD_HOME}"/lib
+
+# And finally, run ...
+#    -Dsmartsockets.file="$ARNOLD_HOME"/smartsockets.properties \
+exec java \
+    -server -XX:+HeapDumpOnOutOfMemoryError \
+    $PROF $GC \
+    -classpath "$CLASSPATH:$LIBCLASSPATH" \
+    -Dlog4j.configuration=file:"$ARNOLD_HOME"/log4j.properties \
+    -Dibis.pool.name=$POOLNAME \
+    -Dibis.server.address=$SERVERHOST:5437 \
+    -Xmx400M \
+     nl.tudelft.tribler.arnold.Arnold $JORRENTFILE $SHAREDFILE

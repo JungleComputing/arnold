@@ -1,0 +1,18 @@
+Code overview
+
+This document briefly describes the purpose and the organisation of Arnold. 
+
+Arnold is a simple bittorrent implementation in Java, using the Ibis distributed
+computing platform. It is intended to study policies, in particular
+anonymization policies and helper selection for anonymization.
+The main simplification in Arnold is that only one file can be shared at the
+same time, it also takes some liberties with the bitTorrent protocol, and uses
+its own `wire format' instead of the standard bitTorrent format. Apart from
+these isssues it is a fully functional bitTorrent client, including anonymous
+file downloading and sharing.
+
+All java source files live in a single package, nl.tudelft.tribler.arnold.
+
+The central file is Engine.java, which implements the main bittorrent engine
+that asks for pieces from other peers, and uploads chunks to these peers.
+

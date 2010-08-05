@@ -1,0 +1,37 @@
+
+#proc getdata
+    file: @COMPLETIONFILE
+
+#proc areadef
+    rectangle: 1 1 4 4
+#    xautorange: datafield=1
+    xrange: 0 180
+    xaxis.stubs: inc
+    xaxis.label: time (s)
+    xaxis.grid: color=0.8
+    yautorange: datafield=2
+    yaxis.grid: color=0.8
+    yaxis.label: Number of peers
+    yaxis.stubs: inc
+
+#proc lineplot
+    xfield: 1
+    yfield: 2
+    linedetails: color=green
+    stairstep: yes
+    legendlabel: completion time
+
+#proc getdata
+    file: @STARTFILE
+
+#proc lineplot
+    xfield: 1
+    yfield: 2
+    linedetails: color=red
+    stairstep: yes
+    legendlabel: first piece time
+
+#proc legend
+    location: min+1 min-0.35
+    format: singleline
+
